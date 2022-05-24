@@ -48,7 +48,7 @@ If needed for your coding challenge, you may change the structure of the databas
 ## Server Requests
 The client is built using Create React App. The command listed above for starting the development server is enough to start the express server and Create React App. 
 
-To make server requests, simply make the request with a relative path. The requests should already be proxied from the client server port (3000) to the express server port (5000).
+To make server requests, simply make the request with a relative path. The requests should already be proxied from the client server port (3000) to the express server port (8080).
 
 example:
 ```
@@ -57,7 +57,7 @@ await fetch('/my/route/here');
 
 /* AVOID DOING THIS */
 // absolute route 
-await fetch('localhost:5000/my/route/here');
+await fetch('localhost:8080/my/route/here');
 ```
 
 # Client

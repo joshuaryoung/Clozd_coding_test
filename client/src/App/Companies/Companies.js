@@ -51,6 +51,6 @@ const Companies = () => {
 			))}
 		</div>
 	);
-}
+};
 
 export default Companies;

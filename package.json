@@ -4,11 +4,11 @@
 	"description": "junior engineer coding test",
 	"main": "server.js",
 	"scripts": {
-		"client": "cd client && yarn start",
+		"client": "cd client && npm run start",
 		"server": "nodemon server.js",
 		"migrate": "node ./db/migrate.js",
 		"seed": "node ./db/seed.js",
-		"dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
+		"dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
 	},
 	"author": "",
 	"license": "ISC",
