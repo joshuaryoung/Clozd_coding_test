@@ -4,7 +4,7 @@ import Breadcrumbs from './Breadcrumbs/Breadcrumbs';
 import Logo from './Logo/Logo';
 import './PageContainer.css';
 
-const App = () => {
+const PageContainer = () => {
 	return (
 		<div className="page-container">
 			<div className="page-container_top-bar">
@@ -19,4 +19,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default PageContainer;
