@@ -12,7 +12,7 @@ You are developing an application that will show a list of companies along with 
   - [ ] View should show each department name in that company along with the number of employees in that department.
   - [ ] Per department, the view should include a list of every employee with avatar image, name, title, and country associated with that department.
   - [ ] Breadcrumbs should be updated to reflect the new route added.
-- [ ] Somewhere of your choosing in the UI, the application should have the ability to edit the name of a company and save it to the database.`
+- [ ] Somewhere of your choosing in the UI, the application should have the ability to edit the name of a company and save it to the database.
 
 ### Design
 - UI does not need to be a work of art, but we expect any new UI to follow a similar design style to what already exists.
