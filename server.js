@@ -3,6 +3,9 @@ const app = express();
 const port = 8080;
 const db = require('./db');
 
+app.use(express.json());
+app.use(express.urlencoded());
+
 /**
  * GET /companies
  * Fetches all companies in the database
