@@ -4,7 +4,8 @@ import Breadcrumbs from './Breadcrumbs/Breadcrumbs';
 import Logo from './Logo/Logo';
 import './PageContainer.css';
 
-const PageContainer = () => {
+const PageContainer = ({crumbs}) => {
+	console.log({ crumbs });
 	return (
 		<div className="page-container">
 			<div className="page-container_top-bar">
@@ -12,7 +13,9 @@ const PageContainer = () => {
 				<div className="page-container_page-title">Coding Challenge</div>
 			</div>
 			<div className="page-container_content-container">
-				<Breadcrumbs />
+				<Breadcrumbs
+					crumbs={crumbs}
+				/>
 				<Outlet />
 			</div>
 		</div>
