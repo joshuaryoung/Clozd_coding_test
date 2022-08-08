@@ -47,7 +47,7 @@ const Companies = () => {
 				<TableRow
 					key={company.id}
 					className="companies_row"
-					onClick={() => navigate(`/companies/${company.id}`)}
+					onClick={() => navigate(`/companies/${company.id}/`)}
 					{...company}
 				/>
 			))}

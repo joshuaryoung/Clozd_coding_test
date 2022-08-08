@@ -5,7 +5,6 @@ import Logo from './Logo/Logo';
 import './PageContainer.css';
 
 const PageContainer = ({crumbs}) => {
-	console.log({ crumbs });
 	return (
 		<div className="page-container">
 			<div className="page-container_top-bar">

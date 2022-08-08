@@ -31,14 +31,12 @@ const Breadcrumbs = ({ crumbs }) => {
 };
 
 export const mapLocations = (location) => {
-	const splitPathname = location.pathname.split('/').filter(el => el)
 	let cumulativeLocName = ''
 
 	return location &&
 	location.pathname.length &&
 	location.pathname.split('/').filter(el => el).map((el, i) => {
 		cumulativeLocName += el + '/'
-		console.log({ cumulativeLocName });
 
 		return {
 			name: el[0].toUpperCase() + el.slice(1),
