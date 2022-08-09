@@ -1,0 +1,15 @@
+#metadata-container {
+    margin-bottom: 30px;
+    margin-left: 20px;
+}
+
+.metadata-row {
+    display: flex;
+    width: 280px;
+    justify-content: space-between;
+}
+
+.metadata-key {
+    font-weight: bold;
+    margin-right: 18px;
+}

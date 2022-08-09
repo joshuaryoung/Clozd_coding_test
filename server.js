@@ -33,15 +33,30 @@ app.get('/companies', (req, res) => {
 app.get('/companies/:companyId', (req, res) => {
 	const { companyId } = req.params || {}
 	// console.log({companyId})
-	const sql = `
-		select c.*, group_concat(d.name) as departments from companies c
-			join departments d on c.id = d.company_id
-		where c.id = $id
-		group by c.id;
+	const companySql = `
+		select c.*, null as departments from companies c
+		where c.id = $id;
 	`;
-	const params = { $id: companyId };
+	const companyParams = { $id: companyId };
 
-	db.all(sql, params, (err, rows) => {
+	const departmentsSql = `
+		select d.id,
+			d.name,
+			json_group_array(json_object(
+			'id', e.id,
+			'name', e.name,
+			'title', e.title,
+			'country', e.country,
+			'avatar', e.avatar
+			)) as employees
+		from departments d
+			join employees e on d.id = e.department_id
+		where d.id in (select d.id from departments d
+		where company_id = $id)
+		group by d.id;
+	`;
+
+	db.all(companySql, companyParams, (err, rows) => {
 		if (err) {
 			console.error(err)
 			res.status(400).json({
@@ -50,11 +65,26 @@ app.get('/companies/:companyId', (req, res) => {
 			return;
 		}
 		
-		res.json({
-			message: 'success',
-			data: rows[0]
-		});
+		const companyData = rows[0] || {}
+
+		db.all(departmentsSql, companyParams, (err, dRows) => {
+			if (err) {
+				console.error(err)
+				res.status(400).json({
+					error: err.message
+				});
+				return;
+			}
+			companyData.departments = dRows.map(el => {
+				return { ...el, employees: JSON.parse(el.employees)}
+			})
+			res.json({
+				message: 'success',
+				data: companyData
+			});
+		})
 	});
+	
 });
 
 
