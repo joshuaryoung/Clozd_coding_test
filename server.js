@@ -32,7 +32,6 @@ app.get('/companies', (req, res) => {
 });
 app.get('/companies/:companyId', (req, res) => {
 	const { companyId } = req.params || {}
-	// console.log({companyId})
 	const companySql = `
 		select c.*, null as departments from companies c
 		where c.id = $id;
@@ -85,6 +84,32 @@ app.get('/companies/:companyId', (req, res) => {
 		})
 	});
 	
+});
+app.post('/companies/:companyId', (req, res) => {
+	const { companyId, companyModel } = req && req.body || {}
+	if (!companyId || !companyModel) {
+		const errMsg = 'Required params not provided!'
+		console.error(errMsg)
+		res.status(400).json({ error: errMsg })
+	}
+	const updateSql = `
+		update companies
+		set name = $name
+		where id = $id;
+	`
+	const params = { $name: companyModel, $id: companyId }
+
+	db.all(updateSql, params, (err, rows) => {
+		if (err) {
+			console.error(err)
+			res.status(400).json({
+				error: err.message
+			});
+			return;
+		}
+
+		res.status(200).json({ idsUpdated: [companyId] })
+	})	
 });
 
 

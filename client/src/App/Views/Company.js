@@ -1,7 +1,10 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useParams, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import './Company.css'
+import editIcon from '../Assets/edit.png'
+import checkmarkIcon from '../Assets/checkmark.png'
+import cancelIcon from '../Assets/cancel.png'
 
 const TableRow = ({
 	className,
@@ -18,11 +21,13 @@ const TableRow = ({
 const Company = forwardRef(({ companyData, setCompanyData, setCrumbs }, crumbsRef) => {
     const { companyId } = useParams()
     const navigate = useNavigate()
+    const [isEditingName, setIsEditingName] = useState(false)
+    const [companyModel, setCompanyModel] = useState()
     
     useEffect(async () => {
         setCompanyData(null)
         const resData = await fetchData(companyId)
-        updateCrumbs(resData, companyId, crumbsRef.current)
+        updateCrumbs(resData, companyId)
         setCompanyData(resData)
     }, [])
 
@@ -53,8 +58,46 @@ const Company = forwardRef(({ companyData, setCompanyData, setCrumbs }, crumbsRe
             return
         }
 
+        setIsEditingName(false)
+
         navigate({ pathname: `${depId}` })
-    } 
+    }
+
+    const handleEditNameClick = () => {
+        setCompanyModel(companyData.name)
+        setIsEditingName(true)
+    }
+
+    const handleInputChange = (e) => {
+        const { value } = e && e.target || {}
+        setCompanyModel(value)
+    }
+
+    const handleSaveNameClick = async () => {
+        const res = await fetch(`/companies/${companyId}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ companyId, companyModel }) })
+        .catch(err => {
+            console.error(err)
+            setIsEditingName(false)
+            alert('There was a problem updating that company name! Please try again or contact support')
+            return
+        })
+
+        try {
+            const newData = await fetchData(companyId)
+            updateCrumbs(newData, companyId)
+            setCompanyData(newData)
+            setIsEditingName(false)
+        } catch (error) {
+            console.error(error)
+            setIsEditingName(false)
+            alert('There was a problem updating that company name! Please try again or contact support')
+            return
+        }
+    }
+
+    const handleEditNameCancel = () => {
+        setIsEditingName(false)
+    }
         
     return (
         <div>
@@ -62,9 +105,8 @@ const Company = forwardRef(({ companyData, setCompanyData, setCrumbs }, crumbsRe
                 {companyData && 
                     (<div>
                         <div id="company-name-container">
-                            <h1>
-                                {companyData.name}
-                            </h1>
+                            {!isEditingName ? <h1>{companyData.name}</h1> : <input type="text" value={companyModel} onChange={handleInputChange} />}
+                            {!isEditingName ? <img id="edit-icon" src={editIcon} onClick={handleEditNameClick} /> : <div><img id="edit-icon" src={checkmarkIcon} onClick={handleSaveNameClick} /><img id="edit-icon" src={cancelIcon} onClick={handleEditNameCancel} /></div>}
                         </div>
                         <div id="metadata-container">
                             <div className="metadata-row">

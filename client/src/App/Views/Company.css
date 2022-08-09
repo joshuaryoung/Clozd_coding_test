@@ -13,3 +13,13 @@
     font-weight: bold;
     margin-right: 18px;
 }
+
+#company-name-container {
+    display: flex;
+}
+
+#edit-icon {
+    object-fit: contain;
+    width: 20px;
+    margin-left: 10px;
+}
